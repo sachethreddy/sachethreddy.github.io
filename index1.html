@@ -1,0 +1,611 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>TensorFlow overview</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ed4b3011-4635-4cbb-93e7-de62413cc90a" class="page sans"><header><h1 class="page-title">TensorFlow overview</h1></header><div class="page-body"><p id="a37acbdd-5fb8-4257-ae04-d518f4d65b79" class="">Machine Learning might be a daunting discipline but implementing the models for machine learning isn’t. This is due to Machine Learning frameworks such as Google’s TensorFlow which in a gist helps acquire data, train models,solve predictions aswell as refine future results.<strong>TensorFlow</strong> is a free and open source library for and differentiable programming and dataflow across a range of tasks. It is a symbolic math library, and is also used for ML applications such as neural networks.It was originally developed by Google Brain for internal use but was eventually released under Apache License 2.0 on Nov 9 2015.</p><p id="6b610ff0-b86a-4992-a226-609d0de0a934" class="">TensorFlow’s reference implementation runs on single devices.</p><p id="f3f18076-83e8-468a-99fb-993f35033dad" class=""><strong>What is a Reference Implementation:</strong></p><ol id="fe797ec9-f5da-4a12-839f-66a60e84d85a" class="numbered-list" start="1"><li>An implementation which is Developed concurrently with the specification and test suite.</li></ol><ol id="2295607d-329a-40ef-965b-db2fd22ddcdf" class="numbered-list" start="2"><li>Which verifies that specification is implementable/replicated.</li></ol><ol id="25ae5c14-f24f-426c-8fe4-d4a9ed21c41e" class="numbered-list" start="3"><li>Enabling the test suite to be tested.</li></ol><ol id="a72e6407-56df-4487-b3d4-af54b109a9b0" class="numbered-list" start="4"><li>Serves as a Gold Standard against which other implementations can be measured.</li></ol><ol id="16470994-6aef-414f-80d0-f405fe19a63e" class="numbered-list" start="5"><li>Helps to clarify the intent of the specification in situations where conformance tests are inadequate.</li></ol><p id="1b0685bc-a823-48f5-a077-b90959637ed7" class="">But TF can also be made to be run on several CPU’S, GPU’S with optional CUDA AND SYCL extensions . While you might have heard these before, additionally TF is run on <strong>TPU’S</strong> aswell. It is available on Linux MacOS and windows alongside its mobile counterparts such as Android and iOS.</p><figure id="01c7407a-a5b8-4d2d-9cb1-7db8dcb5b006" class="image"><a href="TensorFlow%20overview/image10.png"><img style="width:498px" src="TensorFlow%20overview/image10.png"/></a></figure><p id="03b2af5c-70d7-4b94-984c-dd621f8cb1d1" class="">What is <strong>TPU</strong></p><p id="d8232261-acce-4c33-b3dd-46ecdbc29f4d" class="">A <strong>tensor processing unit</strong> (<strong>TPU</strong>) is an AI accelerator application-specific integrated circuit (ASIC) developed by Google specifically for neural network machine learning.</p><figure id="e9585a5d-af95-490f-9e5b-2870d4a32bdd" class="image"><a href="TensorFlow%20overview/image3.png"><img style="width:220px" src="TensorFlow%20overview/image3.png"/></a></figure><p id="81c6d196-1f96-46fa-bae3-97cf7fc90cc7" class=""><strong>TPU TRIVIA</strong></p><p id="8a55e24f-bf07-48d0-94a3-533cbee582f0" class="">Google&#x27;s TPUs are proprietary. Some models are commercially available, and on February 12, 2018, <em>The New York Times</em> reported that Google &quot;would allow other companies to buy access to those chips through its cloud-computing service.&quot; Google has stated that they were used in the <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol">AlphaGo versus Lee Sedol</a> series of man-machine <a href="https://en.wikipedia.org/wiki/Go_(game)">Go</a> games, as well as in the <a href="https://en.wikipedia.org/wiki/AlphaZero">AlphaZero</a> system which produced <a href="https://en.wikipedia.org/wiki/Chess">Chess</a>, <a href="https://en.wikipedia.org/wiki/Shogi">Shogi</a> and Go playing programs from the game rules alone and went on to beat the leading programs in those games. Google has also used TPUs for <a href="https://en.wikipedia.org/wiki/Google_Street_View">Google Street View</a> text processing, and was able to find all the text in the Street View database in less than five days. In <a href="https://en.wikipedia.org/wiki/Google_Photos">Google Photos</a>, an individual TPU can process over 100 million photos a day. It is also used in <a href="https://en.wikipedia.org/wiki/RankBrain">RankBrain</a> which Google uses to provide search results.</p><h1 id="4111adf1-2fdd-41cc-a895-4a6705c77e17" class=""><strong>TYPES OF TPU</strong></h1><div id="7c97f732-9abf-4453-b740-eb83bf4c72c1" class="column-list"><div id="5ea799ca-eb03-4ab3-884c-1d749e597cfe" style="width:93.75%" class="column"><ol id="b5afd788-e864-4c7c-ae53-c452017e2740" class="numbered-list" start="1"><li><strong>First generation TPU</strong></li></ol><ol id="1761920d-4793-4f31-8bb2-0402af9cb015" class="numbered-list" start="2"><li><strong>Second generation TPU</strong></li></ol><ol id="e22e5fb9-30ed-4c73-9dc4-12871204140e" class="numbered-list" start="3"><li><strong>Third generation TPU</strong></li></ol><ul id="59f45072-d17a-485b-b679-2265bd19f016" class="toggle"><li><details open=""><summary><strong>Edge TPU</strong></summary><p id="b6321204-7f1c-4171-b2d0-a2228f0f5df0" class="">The machine learning runtime used to execute models on the Edge TPU is based on <a href="https://en.wikipedia.org/wiki/TensorFlow">TensorFlow Lite</a>.The Edge TPU is only capable of accelerating forward-pass operations, which means it&#x27;s primarily useful for performing inferences (although it is possible to perform lightweight transfer learning on the Edge TPU). The Edge TPU also only supports 8-bit math, meaning that for a network to be compatible with the Edge TPU, it needs to be trained using TensorFlow <a href="https://github.com/tensorflow/tensorflow/tree/r1.13/tensorflow/contrib/quantize">quantization-aware training</a> technique.TensorFlow computations are expressed as <a href="https://en.wikipedia.org/wiki/State_(computer_science)">stateful</a> <a href="https://en.wikipedia.org/wiki/Dataflow_programming">dataflow</a> <a href="https://en.wikipedia.org/wiki/Directed_graph">graphs</a>.</p></details></li></ul></div><div id="2805bbfc-5536-4d9b-aa99-9161dbcb543a" style="width:6.25%" class="column"><p id="b224a112-7464-4c73-a9bf-3a1671187f63" class="">
+</p></div></div><h3 id="70ddb814-eeca-4f66-a0c5-b0546cb9044d" class=""><strong>FYI</strong></h3><p id="99f77923-9234-4a9c-9f4f-79abcc9a6dc3" class=""><strong>dataflow programming</strong> is a programming paradigm that models a program as a directed graph of the data flowing between operations, thus implementing dataflow principles and architecture. Dataflow programming languages share some features of functional languages, and were generally developed in order to bring some functional concepts to a language more suitable for numeric processing.</p><h3 id="bd9c85b3-b8ec-4a57-8a86-2a2e3bf228be" class="">TENSORS</h3><p id="9b58b400-484b-41ee-9b4c-c194e7dc9ac3" class="">The name TensorFlow derives from the operations that such neural networks perform on multidimensional data arrays, which are referred to as <em>tensors</em>. All computations in tensorflow involve tensor and all values in a tensor hold identical data type with a known (or partially known) <strong>shape</strong>. The shape of the data is the dimensionality of the matrix or array. A tensor can be originated from the input data or the result of a computation. In TensorFlow, all the operations are conducted inside a graph. The graph is a set of computation that takes place successively. Each operation is called an op node and are connected to each other.</p><p id="eefd3099-337c-4dee-b201-975a158d57e4" class="">Models are fed a list of objects called <strong>feature vectors</strong>. A feature vector can be of any data type. The feature vector will usually be the primary input to populate a tensor. These values will flow into an op node through the tensor and the result of this operation/computation will create a new tensor which in turn will be used in a new operation. All these operations can be viewed in the graph.</p><p id="63cd3d52-59e8-4bd7-9278-06e5700bf0b1" class="">A 3x3 matrix of the elements 1,2,3,4,5,6,7,8,9 is represented in tensorflow as:</p><blockquote id="13084ade-5c8c-48c4-9033-08924565adfe" class="">[[1, 2, 3],</blockquote><blockquote id="97a7be13-e4e2-4f9a-a8df-d5c74859b675" class="">[4, 5, 6],</blockquote><blockquote id="4da24ba8-d310-42e0-894d-d1df0178963e" class="">[7,8,9]]</blockquote><p id="8a5cfd69-b1da-422d-ae46-bed0d61f1427" class="">In TensorFlow, all the computations pass through one or more tensors. A tensor is an object with three properties:<div class="indented"><ol id="4eae55ed-740d-45d9-b525-33c8a47d1a5b" class="numbered-list" start="1"><li>A unique label (name)</li></ol><ol id="ac1ef92d-7470-4e45-ace9-710ba0487871" class="numbered-list" start="2"><li>A data type (dtype)</li></ol><ol id="e7ef95bc-3c95-4e58-8458-d6806aa1c8bf" class="numbered-list" start="3"><li>A dimension (shape)</li></ol></div></p><p id="cfe2a0eb-e158-41f7-9f14-60989edc2e2e" class="">Each operation you will do with TensorFlow involves the manipulation of a tensor. There are four main tensors we can create:-<div class="indented"><ol id="c75b32bc-f9b1-4981-9313-881eee5c096c" class="numbered-list" start="1"><li>tf.Variable</li></ol><ol id="d62913f3-b7e5-4563-ae1f-103253a01c0b" class="numbered-list" start="2"><li>tf.constant</li></ol><ol id="d4728b79-6f0c-4c10-ad60-9220608c6082" class="numbered-list" start="3"><li>tf.placeholder</li></ol><ol id="6d93ab4f-e5c7-4bbb-abfb-c69c266e44b3" class="numbered-list" start="4"><li>tf.SparseTensor</li></ol></div></p><p id="128e7952-9a92-486a-b02a-151a25735bcd" class="">Installation of tensorflow has become easier with the newer iterations of the software</p><p id="b091c51a-c2fd-4f1d-9931-99fcb9953403" class="">We first download the anaconda package manager with the required version of python.</p><p id="9e2dc02c-979c-4d23-8459-f5f52addc697" class="">Then from the anaconda prompt we create a new environment. The changes we make here do not collide with the system dependencies.</p><pre id="e2e61f03-ba6d-4132-8835-00ecbd5fa920" class="code"><code><strong>conda create (name-here)</strong></code></pre><p id="e13a46ae-31e8-42aa-b616-0ac4aefb03b0" class="">Then we install pip from the package manager ,from this we install the tensorflow package.</p><pre id="ae5971c6-be55-4101-bcc4-b9fd57a27850" class="code"><code><strong>pip3 install --user --upgrade tensorflow</strong></code></pre><p id="633f7473-66ce-4b15-99b1-250519a4fdda" class="">Now to activate the environment:-</p><pre id="b76183f4-7a35-4b9f-9fb9-f6bf09ca982e" class="code"><code><strong>conda activate (name)</strong></code></pre><p id="abb74728-36e5-4079-a4f7-03ad51355e43" class="">If everything has been correctly installed, no errors will be thrown upon the following statement:</p><pre id="a4c8320b-47be-47c8-a8e9-ae75a87572da" class="code"><code> <strong>import tensorflow as tf</strong></code></pre><h2 id="f49fb123-6cae-4eea-a730-3f902e3a4152" class=""><strong>OPERATIONS</strong></h2><h3 id="f459a642-4d7c-4f71-bcb3-c7e41af5546c" class=""><strong>SHAPE OF TENSORS</strong></h3><p id="7a3de3e0-ddf9-4fb0-9e65-633ffdfb01ec" class="">First property of a tensor is its shape</p><figure id="20b6104d-3941-46e7-a62b-7427f0c21a9d" class="image"><a href="TensorFlow%20overview/image1.png"><img style="width:406px" src="TensorFlow%20overview/image1.png"/></a></figure><h3 id="a36faebe-f87a-43de-8e01-6a415b1b4ce6" class=""><strong>TYPE OF DATA</strong></h3><p id="ca85fd3a-4104-4950-b99b-90e5dbed7f87" class="">The second property of a tensor is the type of data. A tensor can only have one type of data at a time. A tensor can only have one type of data. You can return the type with the property dtype.</p><figure id="e5cd5bec-386c-4f2d-bc45-2e119cc8fb23" class="image"><a href="TensorFlow%20overview/image9.png"><img style="width:224px" src="TensorFlow%20overview/image9.png"/></a></figure><p id="8d666e56-25d9-423d-b685-5543d5f9365f" class="">Data type can be changed using the cast method</p><figure id="10a14fe3-9874-47ec-890a-6a26afdbad24" class="image"><a href="TensorFlow%20overview/image6.png"><img style="width:482px" src="TensorFlow%20overview/image6.png"/></a></figure><h3 id="9b3c3cc9-fd08-42d9-b91a-6cb818bba1c9" class=""><strong>MATHEMATICAL OPERATIONS IN TENSORFLOW</strong></h3><ul id="13935736-535f-455f-8ad5-0607bbb5b554" class="bulleted-list"><li><strong>tf.add(a, b)</strong></li></ul><ul id="d716e86a-a649-4715-b299-8c14c804f493" class="bulleted-list"><li><strong>tf.substract(a, b)</strong></li></ul><ul id="8d172e4c-d4ed-4962-a9e7-b15975ebd330" class="bulleted-list"><li><strong>tf.multiply(a, b)</strong></li></ul><ul id="9eae18d6-dbfb-4ff6-bf33-6f9a671b6e0f" class="bulleted-list"><li><strong>tf.div(a, b)</strong></li></ul><ul id="dd486fbb-6473-4910-8ea8-5cb583a6d555" class="bulleted-list"><li><strong>tf.pow(a, b)</strong></li></ul><ul id="27d11586-8466-4eb6-9c7c-2163e89b9677" class="bulleted-list"><li><strong>tf.exp(a)</strong></li></ul><ul id="92eb5af5-a40d-4c9a-a14b-c3c1275a1a59" class="bulleted-list"><li><strong>tf.sqrt(a)</strong></li></ul><p id="54ab99b1-a4fc-4951-976b-64dbd411c541" class=""><strong>Example:-</strong></p><figure id="588e69ad-5393-4d73-ab3b-1c52fcaf1429" class="image"><a href="TensorFlow%20overview/image4.png"><img style="width:571px" src="TensorFlow%20overview/image4.png"/></a></figure><h3 id="e4eb95d7-c20c-4751-81a9-1aad25e931c6" class=""><strong>VARIABLES</strong></h3><p id="f7e954fa-bf58-4c87-9af1-c7e493276442" class="">Data always arrive with different values, to capture this, you can use the Variable class. It will represent a node where the values always change.</p><p id="36159b17-4497-4f46-8b88-5bea378aeeac" class="">You can pass the values of a constant tensor in a variable. You create a constant tensor with the method tf.constant(). You use this tensor to initialize the variable.<div class="indented"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="9898e239-1e79-4855-8714-a56dc9a26e97"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">SYNTAX</div></figure><p id="2ddffa3e-55cd-4485-83ba-73498f51c6e0" class="">tf.get_variable(name = &quot;&quot;, values, dtype, initializer)</p><p id="ee9000f5-9cff-4970-9072-ff7972fffa8e" class="">argument</p><p id="3b03fb0f-b11d-4fb2-964a-41bbe72b157a" class="">- `name = &quot;&quot;`: Name of the variable</p><p id="70663142-0234-48ef-b67c-b059b62bb41e" class="">- `values`: Dimension of the tensor</p><p id="7111ce85-08c4-41c5-9a9a-41c0f5d9e59b" class="">- `dtype`: Type of data. Optional</p><p id="ee97e685-db45-41e8-8a8e-c0733f2b9c30" class="">- `initializer`: How to initialize the tensor. Optional</p></div></p><p id="511c56d6-97bc-4b45-8277-7e846a106b49" class="">If initializer is specified, there is no need to include the `values` as the shape of `initializer` is used.</p><figure id="7ea47479-4732-4a19-aa81-c3c1509fe209" class="image"><a href="TensorFlow%20overview/image2.png"><img style="width:700px" src="TensorFlow%20overview/image2.png"/></a></figure><h3 id="dc64bb3f-8aff-43c5-956f-29e956f4f2e7" class=""><strong>PLACEHOLDER</strong></h3><p id="eb00bbab-b750-4a60-9219-26d785fbc49e" class="">A placeholder has the purpose of feeding the tensor. Placeholder is used to initialize the data to flow inside the tensors. To supply a placeholder, you need to use the method feed_dict. The placeholder will be fed only within a session.<div class="indented"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0fd5b584-20b5-4be9-8c7f-efce8e39e4cb"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">SYNTAX</div></figure><p id="c9a1c1ed-8e58-4d9d-a5ed-e3631776ae42" class="">tf.placeholder(dtype,shape=None,name=None )</p><p id="81ae0c3f-1592-4fd0-bb35-a01a092bf42c" class="">arguments:</p><p id="ec565dc5-a8e9-4acc-9411-be394399082e" class="">- `dtype`: Type of data</p><p id="d31c5fda-ff36-4fbe-9154-654eb93e7694" class="">- `shape`: dimension of the placeholder. Optional. By default, shape of the data</p><p id="bf226188-8837-401e-a0c3-f6f1bf1b1d5e" class="">- `name`: Name of the placeholder. Optional</p></div></p><h3 id="c05ade11-298c-4340-a064-5f23363670c4" class=""><strong>SESSION</strong></h3><p id="21462c81-f491-4cd6-96a0-a2b60844b4be" class="">A session will execute the operation from the graph. To feed the graph with the values of a tensor, you need to open a session. Inside a session, you must run an operator to create an output.</p><figure id="2a48c97b-7b49-4f63-b237-2132888a11c7" class="image"><a href="TensorFlow%20overview/image7.png"><img style="width:329px" src="TensorFlow%20overview/image7.png"/></a></figure><p id="1d266e7a-9adf-4608-b975-fcb3d75d5779" class="">Another way to create a session is inside a block. The advantage is it automatically closes the session.</p><pre id="87efac20-e75a-401c-bb1b-e4c176cd08c0" class="code"><code>with tf.Session() as sess:
+	result_2 = multiply.eval()
+print(result_2)</code></pre><p id="6fbfef3c-924e-4c0d-9b6f-1a1469f844bb" class="">
+</p><p id="8d3f1fe9-d5b0-4762-a810-abd54bb02887" class="">EXAMPLE</p><ul id="49341be7-ea6b-404e-b56c-bcb481853209" class="bulleted-list"><li>x: Initialize a variable x with a const val of 5</li></ul><ul id="0a782358-5163-49ad-8a62-4d1d7a7e202f" class="bulleted-list"><li>z: Initialize a variable z with a const val of 6</li></ul><ul id="08d10274-6bb5-4952-a0b0-247ea7239881" class="bulleted-list"><li>c: Initialize a constant tensor c with a const val of 5</li></ul><ul id="89cc0b97-0e7c-44a7-b765-640f3bba7ac6" class="bulleted-list"><li>square: Initialize a const tensor called square with a const val of 2</li></ul><ul id="79da6a1b-39dc-4bba-8ad9-a93614965c77" class="bulleted-list"><li>f: Construct the operator/function to perform a series of tasks</li></ul><figure id="41a63c40-c093-43f2-a3a6-46ef5ec1edc1" class="image"><a href="TensorFlow%20overview/image5.png"><img style="width:700px" src="TensorFlow%20overview/image5.png"/></a></figure><p id="7979b64c-180e-47ca-8cc0-b326b4e83fe9" class="">evaluate the function f created above in a session.</p><figure id="03cda713-abaa-4036-871f-1ad58876c979" class="image"><a href="TensorFlow%20overview/image8.png"><img style="width:343px" src="TensorFlow%20overview/image8.png"/></a></figure><h2 id="bd42aa06-949e-49be-bcf1-9e84c6c37869" class="">IMPORTING DATASETS</h2><h3 id="53ed7c1f-e91f-4ce2-b3ae-f98319c1a651" class="">USING NUMPY</h3><pre id="004f7be9-b7ba-42a2-a252-49bc80db1a74" class="code"><code># create a random vector of shape (100,2)
+x = np.random.sample((100,2))
+# make a dataset from a numpy array
+dataset = tf.data.Dataset.from_tensor_slices(x)</code></pre><h3 id="45ba0e0f-c262-4fcc-ba97-a79893f61f1c" class="">USING TENSORS</h3><pre id="14b7e24e-45f6-477e-9110-025462763df2" class="code"><code># using a tensor
+dataset = tf.data.Dataset.from_tensor_slices(tf.random_uniform([100, 2]))</code></pre><h3 id="adb8b63a-4312-41d3-b61f-4677922c0740" class="">USING PLACEHOLDER</h3><pre id="e5c28c31-fc2d-4c0a-bfdb-0bed783f943e" class="code"><code>x = tf.placeholder(tf.float32, shape=[None,2])
+dataset = tf.data.Dataset.from_tensor_slices(x)</code></pre><h3 id="59b3336c-cb58-478e-a3cc-e1f9b35593bb" class="">FROM CSV</h3><p id="2a3a1ff6-fe78-49eb-9baf-e0affb18e0e0" class="">We can create a <strong>Dataset</strong> from a CSV file by calling <strong>tf.contrib.data.make_csv_dataset</strong> . Be aware that the iterator will create a dictionary with key as the column names and values as Tensor with the correct row value.</p><pre id="a7fb190d-4654-4dfe-a318-b4e40f9f236d" class="code"><code># load a csv
+CSV_PATH = &#x27;./tweets.csv&#x27;
+dataset = tf.contrib.data.make_csv_dataset(CSV_PATH, batch_size=32)
+iter = dataset.make_one_shot_iterator()
+next = iter.get_next()
+print(next)
+ # next is a dict with key=columns names and value=column data
+inputs, labels = next[&#x27;text&#x27;], next[&#x27;sentiment&#x27;]
+
+with  tf.Session() as sess:  
+  sess.run([inputs, labels])</code></pre><h2 id="9f22c913-83eb-4c96-b53a-e12284bb4e0b" class="">ITERATOR</h2><p id="78b402a8-95c6-432a-8648-71b8cba484ed" class=""><strong>Iterator </strong>will give us the ability to iterate through the dataset and retrieve the real values of the data.</p><ul id="ead9a75f-ae72-4df0-ae9b-d26f157ea9e7" class="toggle"><li><details open=""><summary><strong>One shot.</strong></summary><ul id="7fa27f53-f482-4ceb-96cb-633300011207" class="toggle"><li><details open=""><summary><strong> </strong>It can iterate once through a dataset, you <strong>cannot feed</strong> any value to it.</summary></details></li></ul></details></li></ul><ul id="2a8ff7a6-2161-45c0-85fb-ce0ef0ff50ea" class="toggle"><li><details open=""><summary><strong>Initializable.</strong></summary><p id="5626903b-1f28-4225-a4ea-396af7c9bc48" class="">You can dynamically change calling its initializer operation and passing the new data with feed_dict . It’s basically a bucket that you can fill with stuff.</p></details></li></ul><ul id="27dd5dd1-d558-4152-a840-2b7d9e4d61ab" class="toggle"><li><details open=""><summary><strong>Reinitializable.</strong></summary><p id="8be41c2e-bd4a-4220-8a3d-638d3e7b597b" class="">: It can be initialised from different Dataset. Very useful when you have a training dataset that needs some additional transformation, eg. shuffle, and a testing dataset. It’s like using a tower crane to select a different container.</p></details></li></ul><ul id="b2dbecd9-329e-48fb-8b92-78718a8e9ed9" class="toggle"><li><details open=""><summary><strong>Feedable.</strong></summary><p id="b4fc67bb-92be-4eec-a1eb-93e4ddc67b49" class=""> It can be used to select with iterator to use. Following the previous example, it’s like a tower crane that selects which tower crane to use to select which container to take. In my opinion is useless.</p></details></li></ul><p id="034bdd18-ebb3-4c59-b6cb-f9103cecd045" class="">
+</p><pre id="f0a5adbe-808d-49dc-973a-f3760c3a2cec" class="code"><code>x = np.random.sample((100,2))
+# make a dataset from a numpy array
+dataset = tf.data.Dataset.from_tensor_slices(x)
+# create the iterator
+iter = dataset.make_one_shot_iterator()
+el = iter.get_next()
+with tf.Session() as sess:
+ print(sess.run(el)) 
+# output: [ 0.42116176 0.40666069]</code></pre><h3 id="3d54aa4d-e208-48e6-bd6a-eb38904cbc2c" class="">EXAMPLE USING THINGS WE HAVE LEARNT</h3><pre id="1be218d1-2106-4160-b828-0070ec914df8" class="code"><code>import tensorflow as tf
+import numpy as np
+EPOCHS = 10
+BATCH_SIZE = 15</code></pre><pre id="8ddffa28-6278-4a6d-857e-4917bce15e7a" class="code"><code># using two numpy arrays
+features, labels = (np.array([np.random.sample((100,2))]), 
+np.array([np.random.sample((100,1))]))
+dataset = tf.data.Dataset.from_tensor_slices((features,labels)).repeat().batch(BATCH_SIZE)</code></pre><pre id="d0358fd1-4cb1-4b26-be12-3cde25b3eb9a" class="code"><code>iter = dataset.make_one_shot_iterator()
+x, y = iter.get_next()</code></pre><pre id="636b6d67-8647-41c3-971c-08725b79879d" class="code"><code># make a simple model
+net = tf.layers.dense(x, 8)
+ # pass the first value from iter.get_next() as input
+net = tf.layers.dense(net, 8)
+prediction = tf.layers.dense(net, 1)
+loss = tf.losses.mean_squared_error(prediction, y)
+ # pass the second value from iter.get_net() as label
+train_op = tf.train.AdamOptimizer().minimize(loss)</code></pre><pre id="76ac06f7-c755-4de2-9c7e-50bc604727c8" class="code"><code>with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    for i in range(EPOCHS):
+        _, loss_value = sess.run([train_op, loss])
+        print(&quot;Iter: {}, Loss: {:.4f}&quot;.format(i, loss_value))</code></pre><h3 id="60d2db81-41f4-4cc0-960d-69a62be865d3" class="">Output</h3><figure id="16e3fb20-7233-4b77-9d5e-65c6949c9537" class="image"><a href="TensorFlow%20overview/Screenshot_(11).png"><img style="width:251px" src="TensorFlow%20overview/Screenshot_(11).png"/></a></figure><h3 id="5763653d-05c5-4b56-85b3-e6ae00097399" class="">References:-</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1fe4702f-a50a-47bd-9b14-a18acf410c45"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">https://developers.google.com/machine-learning/crash-course/first-steps-with-tensorflow/toolkit</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e6473a05-1289-4501-a5f9-e2785b9cea20"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">https://www.tensorflow.org/tutorials/</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="d26b5b41-5515-41b2-aa37-db1dad50b113"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">https://www.tutorialspoint.com/tensorflow/tensorflow_basics.html</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c4ef1dcf-ae50-463b-a7de-4e12cdae1af3"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="19960cd6-aee5-414c-a1a4-87ec019bb465"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">https://www.guru99.com/tensor-tensorflow.html</div></figure></div></article></body></html>
